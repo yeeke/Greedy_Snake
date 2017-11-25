@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>贪吃蛇</title>
+    <style>
+        #map {
+    border: 1px solid red;
+}
+</style>
+</head>
+<body onkeydown="keydown()">
+    <canvas id="map" width="600" height="400"></canvas>
+
+    <script>
+
+var canvas = document.getElementById("map");
+var context = canvas.getContext("2d");
+var snake;
+var color = ["#ff0000", "#00ff00", "#0000ff"];
+
+var Snake = function () {
+    var self = this;
+    self.x = 1.5;
+    self.y = 3;
+    self.head = [];
+    self.body = [];
+    self.dir = RIGHT;
+    self.speed = 20;
+    self.snakeLength = 10;
+    self.size = 10;
+    self.bodyGap = 2;
+    self.timer = null;
+
+    self.init = function () {
+
+        for (var i = 0; i < self.snakeLength; i++){
+            var t = parseInt(Math.random() * 3);
+            var tColor = color[t];
+            var node = [self.x + (self.snakeLength - 1 - i), self.y, tColor];
+            self.body.push(node);
+        }
+        console.log("初始化完成！！");
+    };
+
+    self.move = function () {
+        self.head = self.body[0];
+//        var t = parseInt(Math.random() * 3);
+//        var tColor = color[t];
+        var newHead = [];
+        if (self.dir == UP){
+            newHead = [self.head[0], self.head[1] - 1];
+        } else if (self.dir == DOWN){
+            newHead = [self.head[0], self.head[1] + 1];
+        } else if (self.dir == LEFT){
+            newHead = [self.head[0] - 1, self.head[1]];
+        } else if (self.dir == RIGHT){
+            newHead = [self.head[0] + 1, self.head[1]];
+        }
+        if (newHead.length > 0){
+            self.body.unshift(newHead); //添加新头
+            if (self.isHit()){
+                console.log(self.head[0], self.head[1]);
+                clearInterval(self.timer);
+
+            } else {
+                self.body.pop();            //删除尾部
+            }
+
+        }
+    };
+
+    self.isHit = function () {
+        self.head = self.body[0];
+        if (self.head[0] < 1 || self.head[0] > WSCREEN / self.size || self.head[1] < 1 || self.head[1] > HSCREEN / self.size){
+
+            return true;
+        }
+        return false;
+    };
+
+    self.loop = function () {
+        context.clearRect(0, 0, WSCREEN, HSCREEN);
+        self.move();
+        self.draw();
+    };
+    
+    self.setSpeed = function () {
+        if (self.timer != null){
+            clearInterval(self.timer);
+        }
+        self.timer = setInterval(self.loop, 3000 / self.speed);
+    };
+
+    self.draw = function () {
+        self.head = self.body[0];
+        for (var i = self.body.length - 1; i > 0; i--){
+//            context.fillStyle = self.body[i][2];
+            context.fillStyle = "red";
+            var tx = (self.body[i][0] - 1) * self.size;
+            var ty = (self.body[i][1] - 1) * self.size;
+            context.fillRect(tx + 1, ty + 1, self.size - self.bodyGap, self.size - self.bodyGap);
+        }
+
+        context.fillStyle = "#006666";
+        context.fillRect((self.head[0] - 1) * self.size + 1,
+            (self.head[1] - 1) * self.size + 1,
+            self.size - self.bodyGap,
+            self.size - self.bodyGap);
+    };
+};
+
+function gameInit() {
+    snake = new Snake();
+    snake.x = 1;
+    snake.y = 1.5;
+    snake.init();
+    snake.draw();
+    snake.setSpeed();
+}
+
+function keydown() {
+    var e = event.keyCode;
+//            console.log(e);
+    switch(e){
+        case 87:
+            snake.dir = UP;
+            snake.hit = false;
+            snake.move();
+            break;
+        case 83:
+            snake.dir = DOWN;
+            snake.hit = false;
+            snake.move();
+            break;
+        case 65:
+            snake.dir = LEFT;
+            snake.hit = false;
+            snake.move();
+            break;
+        case 68:
+            snake.dir = RIGHT;
+            snake.hit = false;
+            snake.move();
+            break;
+    }
+
+}
+
+gameInit();
+
+</script>
+</body>
+</html>
