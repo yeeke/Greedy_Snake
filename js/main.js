@@ -2,12 +2,12 @@
  * 主函数
  */
 
-var backgroundLayer;
-var mapLayer;
-var foodLayer;
-var snakeLayer;
-var snake;
-var food;
+var backgroundLayer;        //背景层
+var mapLayer;               //地图层
+var foodLayer;              //食物层
+var snakeLayer;             //蛇层
+var snake;                  //蛇的全局变量
+var food;                   //食物的全局变量
 
 $(document).ready(function () {
     gameLayerInit();
@@ -33,6 +33,8 @@ function objectInit() {
 }
 
 $(document).keydown(function (e) {
+
+    //当蛇的方向朝上或者朝下时，只有左右键有效
     if (snake.dir == UP || snake.dir == DOWN){
         switch (e.keyCode){
             case A :
@@ -42,7 +44,9 @@ $(document).keydown(function (e) {
                 snake.dir = RIGHT;
                 break;
         }
-    } else if (snake.dir == LEFT || snake.dir == RIGHT){
+    }
+    //当蛇的方向朝左或者朝右时，只有上下键有效
+    else if (snake.dir == LEFT || snake.dir == RIGHT){
         switch (e.keyCode){
             case W :
                 snake.dir = UP;

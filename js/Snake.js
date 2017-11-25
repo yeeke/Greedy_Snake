@@ -1,21 +1,27 @@
 /**
  * 蛇基类
- * */
-var color = ["red", "blue", "green", "pink", "gray"];
+ * @param x 开始坐标x
+ * @param y 开始坐标y
+ * @param layer 所在的游戏层
+ * @constructor
+ */
 
 var Snake = function (x, y, layer) {
     var self = this;
-    self.x = x;
-    self.y = y;
-    self.dir = RIGHT;
-    self.body = [];
-    self.size = 10;
-    self.timer = null;
-    self.speed = 10;
-    self.bodyGap = 2;
-    self.layer = layer;
-    self.snakeLength = 9;
+    self.x = x;                 //开始的坐标x
+    self.y = y;                 //开始的坐标y
+    self.dir = RIGHT;           //方向
+    self.body = [];             //蛇身数组
+    self.size = 10;             //大小
+    self.timer = null;          //句柄，用于控制蛇的循环
+    self.speed = 10;            //速度
+    self.bodyGap = 2;           //每节身体间的间隔
+    self.layer = layer;         //游戏层
+    self.snakeLength = 3;       //蛇的长度
 
+    /**
+     * 初始化
+     * */
     self.init = function () {
         for (var i = 0; i < self.snakeLength; i++){
             // var t = parseInt(Math.random() * color.length);
@@ -30,7 +36,10 @@ var Snake = function (x, y, layer) {
         //console.log(self.body);
         self._move();
     };
-    
+
+    /**
+     * 蛇的移动，主要的功能
+     */
     self.move = function () {
         var head = self.body[0];
         // var t = parseInt(Math.random() * 3);
@@ -98,6 +107,12 @@ var Snake = function (x, y, layer) {
         }
     };
 
+    /**
+     * 检测蛇的碰撞
+     * 1.临界检测
+     * 2.蛇头与蛇身的检测
+     * @return {boolean} 当碰撞了，返回true,否则返回false
+     */
     self.isHit = function () {
         //临界检测
         var head = self.body[0];
@@ -116,12 +131,15 @@ var Snake = function (x, y, layer) {
         if (self.timer != null){
             clearInterval(self.timer);
         }
-        console.log(self.speed);
+        //console.log(self.speed);
         self.timer = setInterval(self.loop, 3000 / self.speed);
     };
 
+    /**
+     * 绘制蛇
+     * */
     self.draw = function () {
-        console.log(self.body.length);
+        //console.log(self.body.length);
         //画蛇身
         for (var i = self.body.length - 1; i > 0; i--){
             self.layer.fillStyle = "red";
@@ -139,6 +157,9 @@ var Snake = function (x, y, layer) {
             self.size - self.bodyGap);
     };
 
+    /**
+     * 循环
+     */
     self.loop = function () {
         self.layer.clearRect(0, 0, WSCREEN, HSCREEN);
         self.draw();
