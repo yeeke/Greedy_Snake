@@ -8,11 +8,32 @@ var foodLayer;              //食物层
 var snakeLayer;             //蛇层
 var snake;                  //蛇的全局变量
 var food;                   //食物的全局变量
+var map;                    //地图类
+var level;
 
+//
 $(document).ready(function () {
     gameLayerInit();
-    objectInit();
+    // objectInit();
 });
+
+function restart() {
+    if (snake != null){
+        if (snake.timer != null){
+            clearInterval(snake.timer);
+        }
+        snake.layer.clearRect(0, 0, WSCREEN, HSCREEN);
+        snake = null;
+    }
+    if (map != null){
+        map.layer.clearRect(0, 0, WSCREEN, HSCREEN);
+        map = null;
+    }
+    if (food != null){
+        food.layer.clearRect(0, 0, WSCREEN, HSCREEN);
+        food = null;
+    }
+}
 
 function gameLayerInit() {
     backgroundLayer = $("#background")[0].getContext("2d");
@@ -26,7 +47,14 @@ function gameLayerInit() {
 }
 
 function objectInit() {
-    snake = new Snake(1, 2, snakeLayer);
+    restart();
+    level = $("#level").val();
+    console.log(level);
+    map = new Map();
+    map.init(mapLayer);
+    map.setLevel(level);
+    map.drawTile();
+    snake = new Snake(2, 2, snakeLayer);
     snake.init();
     food = new Food(foodLayer);
     food.init();

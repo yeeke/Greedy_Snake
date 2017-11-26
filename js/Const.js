@@ -17,3 +17,9 @@ var D = 68;
 var M = 77;
 var N = 78
 var SPACE = 32;
+
+//图块的大小
+var SIZE = 10;
+
+//图块的常量
+var WALL = 1;

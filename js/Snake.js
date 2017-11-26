@@ -12,7 +12,7 @@ var Snake = function (x, y, layer) {
     self.y = y;                 //开始的坐标y
     self.dir = RIGHT;           //方向
     self.body = [];             //蛇身数组
-    self.size = 10;             //大小
+    self.size = SIZE;           //大小
     self.timer = null;          //句柄，用于控制蛇的循环
     self.speed = 10;            //速度
     self.bodyGap = 2;           //每节身体间的间隔
@@ -23,6 +23,7 @@ var Snake = function (x, y, layer) {
      * 初始化
      * */
     self.init = function () {
+
         for (var i = 0; i < self.snakeLength; i++){
             // var t = parseInt(Math.random() * color.length);
             // var tColor = color[t];
@@ -92,6 +93,9 @@ var Snake = function (x, y, layer) {
                 else if (self.snakeLength == 100) {
                     self.speed = self.speed  + parseInt(self.speed * 0.5);
                     self._move();
+                } else if (self.snakeLength == 4){
+                    map.mapLevel[0][1] = 0;
+                    map.drawTile();
                 }
                 //清除食物层
                 food.layer.clearRect(0, 0, WSCREEN, HSCREEN);
@@ -119,10 +123,16 @@ var Snake = function (x, y, layer) {
         if (head.x < 1 || head.x > WSCREEN / self.size || head.y < 1 || head.y > HSCREEN / self.size){
             return true;
         }
+        //当咬到身体时
         for (var i = 1; i < self.body.length; i++){
             if (head.x == self.body[i].x && head.y == self.body[i].y){
                 return true;
             }
+        }
+
+        if (map.mapLevel[head.y - 1][head.x - 1] == WALL){
+            console.log("Wall", head);
+            return true;
         }
         return false;
     };

@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="js/jquery.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/Level.js"></script>
     <script src="js/Const.js"></script>
+    <script src="js/Map.js"></script>
     <script src="js/Food.js"></script>
     <script src="js/Snake.js"></script>
+    <script src="js/main.js"></script>
     <style>
         #canvasDiv canvas{
             position:absolute;
             border: 1px solid red;
+        }
+        #button{
+            margin-top: 410px;
+            position:absolute;
         }
     </style>
 </head>
@@ -21,6 +27,13 @@
         <canvas id="map"></canvas>
         <canvas id="food"></canvas>
         <canvas id="snake"></canvas>
+    </div>
+    <div id="button">
+        选择关卡：<select id="level">
+        <option value="1">关卡1</option>
+        <option value="2">关卡2</option>
+    </select>&nbsp&nbsp
+        <input type="button" id="start" value="开始" onclick="objectInit();"/>
     </div>
 </body>
 </html>
