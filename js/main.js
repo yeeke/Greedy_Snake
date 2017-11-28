@@ -6,10 +6,10 @@ var backgroundLayer;        //背景层
 var mapLayer;               //地图层
 var foodLayer;              //食物层
 var snakeLayer;             //蛇层
-var snake;                  //蛇的全局变量
-var food;                   //食物的全局变量
-var map;                    //地图类
-var level;
+var snake = null;                  //蛇的全局变量
+var food = null;                   //食物的全局变量
+var map = null;                    //地图类
+var level = 1;
 
 //
 $(document).ready(function () {
@@ -61,6 +61,9 @@ function objectInit() {
 }
 
 $(document).keydown(function (e) {
+    if (snake == null){
+        return ;
+    }
 
     //当蛇的方向朝上或者朝下时，只有左右键有效
     if (snake.dir == UP || snake.dir == DOWN){

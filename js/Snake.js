@@ -121,17 +121,20 @@ var Snake = function (x, y, layer) {
         //临界检测
         var head = self.body[0];
         if (head.x < 1 || head.x > WSCREEN / self.size || head.y < 1 || head.y > HSCREEN / self.size){
+            console.log("border", head);
             return true;
         }
         //当咬到身体时
         for (var i = 1; i < self.body.length; i++){
             if (head.x == self.body[i].x && head.y == self.body[i].y){
+                console.log("body", head);
                 return true;
             }
         }
 
+        //地图块碰撞
         if (map.mapLevel[head.y - 1][head.x - 1] == WALL){
-            console.log("Wall", head);
+            console.log("Tile", head);
             return true;
         }
         return false;
