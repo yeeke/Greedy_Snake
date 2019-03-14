@@ -7,7 +7,7 @@ var Map = function () {
     self.height = HSCREEN;          //游戏区的高度
     self.layer = null;              //需要绘制的游戏层
     self.wTileNum = 0;              //游戏区宽度的瓦片个数
-    self.hTileNum = 0;              //游戏区宽度的瓦片个数
+    self.hTileNum = 0;              //游戏区高度的瓦片个数
     self.level = 1;                 //关卡级别
     self.mapLevel = [];
 
